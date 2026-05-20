@@ -26,6 +26,8 @@ apis:
     description: >-
       The Cornerstone Building Brands API provides access to platform services and data for enterprise integration and automation.
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/cornerstone-building-brands
   - type: Website
     url: https://www.cornerstonebuildingbrands.com
 maintainers:
