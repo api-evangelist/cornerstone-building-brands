@@ -4,27 +4,44 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Cornerstone Building Brands
 providerId: cornerstone-building-brands
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+generated: '2026-09-19'
+method: probed
+modified: '2026-09-19'
+reconciled: true
 tags:
   - Building Products
   - Construction
   - Rate Limiting
-description: Cornerstone Building Brands does not publish public API documentation. Any partner / EDI
-  integrations operate under bilateral agreements; rate-limit terms, if any, are bilateral rather than
-  posted publicly.
+description: >-
+  No rate limits are documented, and none are signalled at runtime. Every anonymous response observed on
+  www.cornerstonebuildingbrands.com/wp-json on 2026-09-19 was checked for RateLimit-*, X-RateLimit-* and
+  Retry-After headers; none were present on any of them. The only server-side ceiling observed is the
+  WordPress per_page cap of 100 items, enforced with a 400 rest_invalid_param rather than a 429.
 sources:
-  - https://www.cornerstonebuildingbrands.com
+  - https://www.cornerstonebuildingbrands.com/wp-json/wp/v2/news?per_page=1
+  - https://www.cornerstonebuildingbrands.com/wp-json/wp/v2/news?per_page=1000
 limits: []
+limit_count: 0
+response_headers: []
+status_on_exhaustion: null
+observed:
+  - name: per_page ceiling
+    scope: per-request
+    value: 100 items
+    enforced_with: 'HTTP 400 {"code":"rest_invalid_param", data.details.per_page.code = rest_out_of_bounds}'
+    source: https://www.cornerstonebuildingbrands.com/wp-json/wp/v2/news?per_page=1000
 policies:
-  - name: Bilateral integration
-    description: Integrations with Cornerstone Building Brands are presumed to be partner-specific
-      and governed by the integration agreement, not a public rate-limit policy.
-notes: No public rate-limit documentation is published. Reconciled is false until a public developer
-  portal or partner-integration rate-limit artifact becomes available.
+  - name: Undocumented edge limits
+    description: >-
+      The site is fronted by Cloudflare over WP Engine. Both operate their own request limits, and neither
+      is documented by Cornerstone Building Brands or surfaced in a response header, so a consumer cannot
+      know the ceiling until it is hit.
+notes: >-
+  limit_count 0 is an honest zero from live observation, replacing a 2026-05-04 bulk-sweep scaffold that
+  asserted bilateral partner terms without probing anything. The Customer Portal's Azure API Management
+  backend (apim-usae01-prd-cportal-commonadmin.azure-api.net, found in the portal's public JavaScript
+  bundle) will have APIM-enforced limits, but that gateway is authenticated and its developer portal is
+  unpublished, so nothing about them can be observed.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

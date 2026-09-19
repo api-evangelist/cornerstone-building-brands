@@ -1,0 +1,71 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Fetched discovery documents on www.cornerstonebuildingbrands.com plus the live wp/v2 responses and 401
+  challenges observed on 2026-09-19.
+description: >-
+  What Cornerstone Building Brands' machine-readable surface actually conforms to. Everything asserted true
+  below was read out of a document that was fetched or an HTTP response that was observed — nothing comes
+  from a marketing claim, because the company makes none about an API surface. No domain standard is
+  declared anywhere in the surface (there is no product-data, EDI, BIM/IFC or construction-industry
+  contract published), and the conformance slot is reward-only, so none is recorded.
+standards:
+- id: oauth2
+  conforms: true
+  evidence: >-
+    RFC 8414 authorization-server metadata at
+    https://www.cornerstonebuildingbrands.com/.well-known/oauth-authorization-server declares
+    authorization_code and refresh_token grants with a code response type.
+- id: rfc8414-authorization-server-metadata
+  conforms: true
+  evidence: https://www.cornerstonebuildingbrands.com/.well-known/oauth-authorization-server returned 200 application/json
+- id: rfc9728-protected-resource-metadata
+  conforms: true
+  evidence: >-
+    https://www.cornerstonebuildingbrands.com/.well-known/oauth-protected-resource returned 200 naming the
+    resource and its authorization_servers; the MCP 401 carries WWW-Authenticate with resource_metadata,
+    which is the full RFC 9728 challenge-and-discovery loop.
+- id: rfc7636-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported = ["S256"] in the RFC 8414 document
+- id: oauth2-public-clients
+  conforms: true
+  evidence: token_endpoint_auth_methods_supported = ["none"]
+- id: oauth2-client-id-metadata-document
+  conforms: true
+  evidence: client_id_metadata_document_supported = true in the RFC 8414 document
+- id: rfc7591-dynamic-client-registration
+  conforms: false
+  evidence: no registration_endpoint in the RFC 8414 document; /oauth/register returned 404
+- id: mcp-authorization
+  conforms: true
+  evidence: >-
+    The MCP endpoint answers an anonymous JSON-RPC request with 401 and a WWW-Authenticate Bearer challenge
+    naming resource_metadata, and the protected-resource document names the MCP route as the resource —
+    the discovery sequence the MCP Authorization specification requires of a protected server.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returned 404 on www.cornerstonebuildingbrands.com
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt and /security.txt both returned 404
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog returned 404
+- id: rfc8288-link-pagination
+  conforms: true
+  evidence: >-
+    wp/v2 collection responses expose X-WP-Total, X-WP-TotalPages and Link headers
+    (access-control-expose-headers on every wp-json response, 2026-09-19).
+- id: pagination
+  conforms: true
+  evidence: page / per_page / offset query parameters on every wp/v2 collection, per the route index at /wp-json/
+- id: rfc9457
+  conforms: false
+  evidence: errors use the WordPress {code, message, data.status} envelope as application/json, not application/problem+json
+- id: json:api
+  conforms: false
+  evidence: plain JSON arrays and objects; no JSON:API document structure
+- id: a2a-agent-card
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json returned 404 on www; SPA shell only on portal

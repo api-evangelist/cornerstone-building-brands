@@ -1,0 +1,23 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  Registry searches on 2026-09-19 — npm registry search API, PyPI, GitHub user and repository search —
+  plus the provider's own site, which documents no SDK, CLI or client library.
+description: >-
+  Cornerstone Building Brands publishes no client libraries. There is no GitHub organization
+  (api.github.com/search/users?q=cornerstonebuildingbrands returned zero users), no npm, PyPI, RubyGems,
+  Maven, NuGet, crates.io, Packagist or Go module under the company name, and no SDK or download link
+  anywhere on cornerstonebuildingbrands.com. The npm hits for "cornerstone" belong to the unrelated
+  Cornerstone.js medical-imaging project. An empty list is the measurement.
+packages: []
+official_sdk_count: 0
+probes:
+- url: 'https://registry.npmjs.org/-/v1/search?text=cornerstone%20building%20brands&size=5'
+  status: 200
+  result: 'No first-party package; results are @cornerstonejs/* (medical imaging) and unrelated.'
+- url: 'https://api.github.com/search/users?q=cornerstonebuildingbrands'
+  status: 200
+  result: 0 users — no GitHub organization
+- url: 'https://api.github.com/search/repositories?q=cornerstone-building-brands'
+  status: 200
+  result: 'Only api-evangelist/cornerstone-building-brands (this profile) and unrelated repositories.'

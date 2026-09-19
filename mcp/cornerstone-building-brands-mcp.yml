@@ -1,0 +1,113 @@
+generated: '2026-09-19'
+method: probed
+source: https://www.cornerstonebuildingbrands.com/.well-known/oauth-protected-resource
+status: published
+description: >-
+  Cornerstone Building Brands serves a live remote Model Context Protocol server from its corporate
+  WordPress site. It appears in no MCP registry and in no company documentation — the company has no
+  developer program — and was found by probing the /.well-known/ path list on
+  www.cornerstonebuildingbrands.com, which returns RFC 8414 authorization-server metadata and RFC 9728
+  protected-resource metadata naming /wp-json/mcp/mcp-oauth-server as the protected resource, and by
+  reading the WordPress REST route index at /wp-json, which advertises an `mcp` namespace with two server
+  routes. The server is the WordPress MCP Adapter (backed by the WordPress Abilities API at
+  wp-abilities/v1) fronting the company's WordPress content estate — news releases, industry pages,
+  leadership profiles, media. It is platform-authored, not a Cornerstone-authored tool surface, and it is
+  not an order, dealer, warranty or product-catalog API; those live behind the Customer Portal's
+  Microsoft Entra login and its Azure API Management backend, whose developer portal is unpublished.
+server:
+  name: cornerstone-building-brands
+  transport: http
+  url: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+  protocol: MCP over HTTP (JSON-RPC 2.0)
+  implementation: >-
+    WordPress REST namespace `mcp` on www.cornerstonebuildingbrands.com (WordPress on WP Engine, Rank Math
+    SEO, FacetWP). The route index also exposes wp-abilities/v1 (categories, abilities, abilities/{name}/run),
+    the registry the MCP Adapter maps tools onto; it answers 401 anonymously.
+  routes:
+  - path: /wp-json/mcp/mcp-oauth-server
+    methods: [POST, GET, DELETE]
+    note: The OAuth-protected server named by the RFC 9728 protected-resource document.
+  - path: /wp-json/mcp/mcp-adapter-default-server
+    methods: [POST, GET, DELETE]
+    note: >-
+      The MCP Adapter default server route, advertised in the route index but not named by the
+      protected-resource document; answers rest_forbidden 401 anonymously.
+authorization:
+  required: true
+  model: OAuth 2.1 authorization code with PKCE
+  authorization_servers:
+  - https://www.cornerstonebuildingbrands.com
+  issuer: https://www.cornerstonebuildingbrands.com
+  authorization_endpoint: https://www.cornerstonebuildingbrands.com/oauth/authorize
+  token_endpoint: https://www.cornerstonebuildingbrands.com/oauth/token
+  revocation_endpoint: https://www.cornerstonebuildingbrands.com/oauth/revoke
+  grant_types_supported: [authorization_code, refresh_token]
+  response_types_supported: [code]
+  code_challenge_methods_supported: [S256]
+  token_endpoint_auth_methods_supported: [none]
+  client_id_metadata_document_supported: true
+  authorization_response_iss_parameter_supported: true
+  bearer_methods_supported: [header]
+  scopes_supported: [mcp]
+  dynamic_client_registration: false
+  dynamic_client_registration_note: >-
+    No registration_endpoint in the RFC 8414 document and /oauth/register answers 404; clients identify
+    themselves with a client-ID metadata document (client_id_metadata_document_supported true) instead.
+  detail: scopes/cornerstone-building-brands-scopes.yml
+tools:
+  discovered: false
+  discovery_method: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} with Accept: application/json, text/event-stream'
+  http_status: 401
+  response: '{"code":"mcp_unauthorized","message":"MCP authentication required.","data":{"status":401}}'
+  www_authenticate: 'Bearer realm="https://www.cornerstonebuildingbrands.com", resource_metadata="https://www.cornerstonebuildingbrands.com/.well-known/oauth-protected-resource"'
+  note: >-
+    The live tool list and per-tool inputSchema are auth-gated on both routes (initialize is gated too), and
+    the WordPress Abilities registry that backs them (/wp-json/wp-abilities/v1/abilities) returns 401 as
+    well. Cornerstone Building Brands publishes no tool inventory anywhere and its llms.txt is a Rank Math
+    page index with no tool list, so NO tool list is recorded here — deriving one would be fabrication.
+    Authenticated introspection is required to enumerate the surface.
+related_surfaces:
+  openapi: openapi/cornerstone-building-brands-content-api-openapi.yml
+  note: >-
+    The MCP server and the derived wp/v2 Content API are projections of the same WordPress data core, but
+    they are not the same surface and neither is known to be a superset of the other. See
+    mcp/cornerstone-building-brands-tool-crosswalk.yml.
+x-evidence:
+  fetched: '2026-09-19'
+  probes:
+  - url: https://www.cornerstonebuildingbrands.com/.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+  - url: https://www.cornerstonebuildingbrands.com/.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+  - url: https://www.cornerstonebuildingbrands.com/wp-json/mcp
+    status: 200
+    note: route index advertising both MCP server routes
+  - url: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+    method: POST tools/list
+    status: 401
+  - url: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+    method: POST initialize
+    status: 401
+  - url: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-adapter-default-server
+    method: POST tools/list
+    status: 401
+    note: '{"code":"rest_forbidden","message":"Sorry, you are not allowed to do that.","data":{"status":401}}'
+  - url: https://www.cornerstonebuildingbrands.com/wp-json/wp-abilities/v1/abilities
+    status: 401
+  - url: https://www.cornerstonebuildingbrands.com/oauth/register
+    status: 404
+deployment:
+  mode: remote
+  endpoint: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+  auth: oauth
+  verified: probed
+  probe: gated
+  checked: '2026-09-19'
+  authorship: platform
+  platform: WordPress MCP Adapter
+  note: >-
+    Remote only. Cornerstone Building Brands ships no stdio package — there is no npm, PyPI, GitHub or other
+    distribution of an MCP server for this provider, and no install command is published anywhere. The
+    server is the WordPress platform's, running under the company's domain.

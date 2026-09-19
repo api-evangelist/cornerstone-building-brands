@@ -1,0 +1,29 @@
+generated: '2026-09-19'
+method: generated
+source: >-
+  Grounded in openapi/cornerstone-building-brands-content-api-openapi.yml — every operationId referenced in
+  these skills was verified to exist in that spec, which was itself derived from the provider's own
+  /wp-json route index. No skill is written for the MCP server: its tool list is authentication-gated and
+  unpublished, so there is nothing real to ground one in.
+skills:
+- file: cornerstone-building-brands-read-news.md
+  name: Read the Cornerstone Building Brands news feed
+  description: Retrieve, filter and summarise press releases from the anonymously readable WordPress
+    content API, including the news_category and news_solution taxonomies.
+  api: openapi/cornerstone-building-brands-content-api-openapi.yml
+  operations: [listNews, getNews, listNewsCategory, getNewsCategory, listNewsSolution, getNewsSolution, getMedia]
+- file: cornerstone-building-brands-company-profile-lookup.md
+  name: Look up Cornerstone Building Brands leadership, industries and corporate pages
+  description: Answer questions about the leadership team, the industries served and the corporate/legal
+    pages — and recognise the product, order, warranty and dealer questions this API cannot answer.
+  api: openapi/cornerstone-building-brands-content-api-openapi.yml
+  operations: [searchContent, listLeadership, getLeadership, listIndustry, getIndustry, listPages, getPage, listTypes, listTaxonomies]
+not_written:
+- skill: MCP tool usage
+  reason: >-
+    tools/list returns 401 on both MCP routes and the backing WordPress Abilities registry is gated too.
+    No tool name, description or inputSchema is public, so any skill would be invented.
+- skill: Orders, shipments, warranty, dealer or product catalog
+  reason: >-
+    No public API exists. Those surfaces sit behind the Customer Portal's Microsoft Entra login and an
+    Azure API Management gateway with an unpublished developer portal.

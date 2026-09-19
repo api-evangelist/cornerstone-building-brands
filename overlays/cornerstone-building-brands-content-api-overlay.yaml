@@ -1,0 +1,39 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Cornerstone Building Brands Content API
+  version: 1.0.0
+extends: openapi/cornerstone-building-brands-content-api-openapi.yml
+x-generated: '2026-09-19'
+x-method: generated
+x-source: >-
+  API Evangelist enrichment pipeline. Captures our annotations separately so the derived spec stays a
+  faithful projection of the provider's own /wp-json route index.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/provider/cornerstone-building-brands
+    x-apievangelist-provider-published: false
+    x-apievangelist-note: >-
+      Derived by API Evangelist from the provider's WordPress route-discovery document. Cornerstone Building
+      Brands publishes no OpenAPI of its own and operates no developer programme; the hosts its catalog
+      record previously named (developer. and api.cornerstonebuildingbrands.com) do not resolve.
+- target: $.info
+  update:
+    x-apievangelist-surface-class: cms-content-api
+    x-apievangelist-product-api: false
+- target: $.servers[0]
+  update:
+    x-apievangelist-verified: '2026-09-19'
+    x-apievangelist-verified-status: 200
+- target: $.paths['/wp/v2/news'].get
+  update:
+    x-apievangelist-observed-total: 91
+    x-apievangelist-observed-on: '2026-09-19'
+- target: $.paths['/wp/v2/media'].get
+  update:
+    x-apievangelist-observed-total: 1100
+    x-apievangelist-observed-on: '2026-09-19'
+- target: $.paths['/wp/v2/leadership'].get
+  update:
+    x-apievangelist-observed-total: 9
+    x-apievangelist-observed-on: '2026-09-19'

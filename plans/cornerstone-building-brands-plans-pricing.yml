@@ -4,26 +4,32 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Cornerstone Building Brands
 providerId: cornerstone-building-brands
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+generated: '2026-09-19'
+method: searched
+modified: '2026-09-19'
+reconciled: true
 tags:
   - Building Products
   - Construction
-description: Cornerstone Building Brands is a Fortune 1000 manufacturer of exterior building products
-  in North America. The company does not publish a public developer portal, API documentation, or
-  consumable API pricing. Any "API" in the apis.yml index refers to internal partner / EDI integration
-  surfaces (typically B2B distributor portals) that are not publicly priced and are not consumable
-  by general API developers.
+description: >-
+  Cornerstone Building Brands publishes no API plans, no API pricing and no developer program. It is a
+  building-products manufacturer; its products are sold through dealers and distributors, and its only
+  machine-readable surfaces are the corporate site's WordPress REST content API (anonymous, unmetered, no
+  registration) and an OAuth-gated WordPress MCP server on the same host. Access to the Windows & Doors
+  Customer Portal — the nearest thing to a partner integration surface — is granted by a request form
+  routed to a Territory Sales Manager, with no published terms, tiers or price.
 sources:
-  - https://www.cornerstonebuildingbrands.com
+  - https://www.cornerstonebuildingbrands.com/portalaccess
+  - https://www.cornerstonebuildingbrands.com/wp-json/
+  - https://www.cornerstonebuildingbrands.com/legal
 plans: []
-notes: Cornerstone Building Brands does not publish a public API, public developer portal, or public
-  API pricing. The developer.cornerstonebuildingbrands.com host did not resolve at reconciliation time.
-  Reconciled is false because there is no provider-published pricing artifact to verify against; if
-  a partner/EDI rate card emerges, replace this scaffold with real values.
+plan_count: 0
+notes: >-
+  plan_count 0 is a measurement, not a gap in this profile. Verified 2026-09-19: the customer-portal access
+  page is a contact form (HTTP 200), no pricing page for any API exists in the sitemap (138 URLs walked),
+  and the Terms of Use name no fees for the Service. The previous version of this file asserted the same
+  conclusion from a scaffold dated 2026-05-04; it is now reconciled against live probes, and the dead host
+  it cited (developer.cornerstonebuildingbrands.com, NXDOMAIN) has been removed from the record.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

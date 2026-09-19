@@ -1,0 +1,35 @@
+generated: '2026-09-19'
+method: probed
+source: https://www.cornerstonebuildingbrands.com/.well-known/oauth-authorization-server
+docs: null
+description: >-
+  Cornerstone Building Brands publishes RFC 8414 authorization-server metadata on www.cornerstonebuildingbrands.com,
+  emitted by the WordPress MCP Adapter. It declares exactly one scope, `mcp`, which gates the remote MCP
+  server. This is not a documented developer scope model — the company publishes no OAuth or permissions
+  reference page — it is what the discovery document itself states. No scope description is recorded
+  because the provider publishes none; writing one would be invention.
+schemes:
+- name: OAuth2
+  source: https://www.cornerstonebuildingbrands.com/.well-known/oauth-authorization-server
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.cornerstonebuildingbrands.com/oauth/authorize
+    tokenUrl: https://www.cornerstonebuildingbrands.com/oauth/token
+    revocationUrl: https://www.cornerstonebuildingbrands.com/oauth/revoke
+    pkce: S256
+    scopes: [mcp]
+scopes:
+- scope: mcp
+  description: null
+  description_source: none — the provider publishes no scope reference
+  flows: [authorizationCode]
+  protects: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+  sources: [https://www.cornerstonebuildingbrands.com/.well-known/oauth-authorization-server]
+x-evidence:
+  fetched: '2026-09-19'
+  probes:
+  - url: https://www.cornerstonebuildingbrands.com/.well-known/oauth-authorization-server
+    status: 200
+  - url: https://www.cornerstonebuildingbrands.com/.well-known/oauth-protected-resource
+    status: 200

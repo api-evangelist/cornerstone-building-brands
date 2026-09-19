@@ -14,47 +14,225 @@ deliveryModel:
   generated: '2026-08-28'
   method: derived
 accessModel:
-  pricing: paid
-  onboarding: unknown
+  pricing: free
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Paid
+  try_now: true
+  public: true
+  label: Anonymous read-only content API; no registration, no plans, no price
   confidence: medium
   source:
-  - finops
-  generated: '2026-07-22'
-  method: derived
+  - probe
+  generated: '2026-09-19'
+  method: probed
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cornerstone-building-brands.png
 tags:
   - Building Products
   - Construction
+  - Manufacturing
+  - Building Materials
+  - Content
+  - MCP
+  - WordPress
+  - News
 description: >-
-  Cornerstone Building Brands is a major US corporation and Fortune 1000 company. The Cornerstone Building Brands API provides programmatic access to its platform services, data, and integrations for enterprise customers and partners.
+  Cornerstone Building Brands, Inc. is a Fortune 1000 manufacturer of exterior building products in North
+  America — vinyl siding and accessories, metal and rainware, fence and railing, windows and entry doors,
+  and metal roofs, walls and buildings — sold under brands including Ply Gem, Simonton and Mastic through
+  dealers, distributors and builders rather than as software. It operates no developer program and
+  publishes no API documentation, SDK or developer portal: the hosts its earlier catalog record named,
+  developer.cornerstonebuildingbrands.com and api.cornerstonebuildingbrands.com, do not resolve. Its
+  machine-readable surface is what the corporate WordPress estate on www.cornerstonebuildingbrands.com
+  exposes — an anonymously readable WordPress REST content API (press releases, industry pages, leadership
+  profiles, pages, media, taxonomies and search) and, notably for a manufacturer, a live remote Model
+  Context Protocol server published through the WordPress MCP Adapter, advertised by real RFC 8414
+  authorization-server metadata and RFC 9728 protected-resource metadata, with tools/list OAuth-gated. The
+  company's partner-facing integration surface — orders, ASNs, warranty claims — sits behind the Windows &
+  Doors Customer Portal, which signs in with Microsoft Entra ID over an Azure API Management gateway whose
+  developer portal is unpublished.
 created: '2026-04-19'
-modified: '2026-04-19'
+modified: '2026-09-19'
 specificationVersion: '0.23'
 apis:
-  - aid: cornerstone-building-brands:cornerstone-building-brands-api
-    name: Cornerstone Building Brands API
-    tags:
-      - Building Products
-      - Construction
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://api.cornerstonebuildingbrands.com
-    humanURL: https://developer.cornerstonebuildingbrands.com
-    properties:
-      - url: https://developer.cornerstonebuildingbrands.com/docs
-        type: Documentation
+  - aid: cornerstone-building-brands:cornerstone-building-brands-content-api
+    name: Cornerstone Building Brands Content API (WordPress REST wp/v2)
     description: >-
-      The Cornerstone Building Brands API provides access to platform services and data for enterprise integration and automation.
+      The anonymously readable content surface of www.cornerstonebuildingbrands.com: press releases (the
+      `news` custom post type, 91 items), industry/market-segment pages (15), leadership profiles (9),
+      corporate and legal pages (91), the media library (1,100 items), the news_category and news_solution
+      taxonomies, post categories and tags, and site-wide search. No key, no token, no registration; 27
+      GET operations, all verified 200 on 2026-09-19. The OpenAPI is DERIVED by API Evangelist from the
+      provider's own self-describing route index at /wp-json/ — Cornerstone Building Brands publishes no
+      OpenAPI of its own.
+    tags:
+      - Content
+      - News
+      - WordPress
+      - Building Products
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+    baseURL: https://www.cornerstonebuildingbrands.com/wp-json
+    humanURL: https://www.cornerstonebuildingbrands.com/wp-json/
+    properties:
+      - type: OpenAPI
+        url: openapi/cornerstone-building-brands-content-api-openapi.yml
+      - type: Overlay
+        url: overlays/cornerstone-building-brands-content-api-overlay.yaml
+      - type: DataModel
+        url: data-model/cornerstone-building-brands-data-model.yml
+      - type: ErrorCatalog
+        url: errors/cornerstone-building-brands-problem-types.yml
+      - type: Conventions
+        url: conventions/cornerstone-building-brands-conventions.yml
+      - type: Authentication
+        url: authentication/cornerstone-building-brands-authentication.yml
+      - type: RateLimits
+        url: rate-limits/cornerstone-building-brands-rate-limits.yml
+      - type: AgentSkill
+        url: skills/_index.yml
+    x-evidence:
+      route_index: https://www.cornerstonebuildingbrands.com/wp-json/
+      http_status: 200
+      collections_verified: 14
+      fetched: '2026-09-19'
+  - aid: cornerstone-building-brands:cornerstone-building-brands-mcp
+    name: Cornerstone Building Brands MCP Server (WordPress MCP Adapter)
+    description: >-
+      A live remote Model Context Protocol server served from the corporate WordPress estate under the
+      `mcp` REST namespace. Two MCP routes are advertised in the route index — mcp-oauth-server and
+      mcp-adapter-default-server — and www.cornerstonebuildingbrands.com publishes both RFC 8414
+      OAuth authorization-server metadata and RFC 9728 protected-resource metadata naming mcp-oauth-server
+      as the protected resource. Authorization is OAuth 2.1 authorization-code with PKCE (S256), a single
+      `mcp` scope, public clients (token_endpoint_auth_method none) and client-ID metadata documents; there
+      is no dynamic client registration (/oauth/register 404s). The live tool set could not be enumerated:
+      anonymous initialize and tools/list both return HTTP 401 (mcp_unauthorized on the OAuth server,
+      rest_forbidden on the default adapter server), as does the wp-abilities/v1 registry that backs the
+      tools. The server is platform-authored — the WordPress MCP Adapter running under the company's
+      domain — not a Cornerstone-authored tool surface.
+    tags:
+      - MCP
+      - Agents
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+    baseURL: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+    humanURL: https://www.cornerstonebuildingbrands.com/wp-json/mcp
+    properties:
+      - type: MCPServer
+        url: mcp/cornerstone-building-brands-mcp.yml
+      - type: ToolCrosswalk
+        url: mcp/cornerstone-building-brands-tool-crosswalk.yml
+      - type: OAuthScopes
+        url: scopes/cornerstone-building-brands-scopes.yml
+      - type: Authentication
+        url: authentication/cornerstone-building-brands-authentication.yml
+    x-evidence:
+      protected_resource: https://www.cornerstonebuildingbrands.com/.well-known/oauth-protected-resource
+      authorization_server: https://www.cornerstonebuildingbrands.com/.well-known/oauth-authorization-server
+      http_status: 200
+      tools_list_status: 401
+      fetched: '2026-09-19'
 common:
-  - type: DomainSecurity
-    url: security/cornerstone-building-brands-domain-security.yml
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/cornerstone-building-brands
   - type: Website
     url: https://www.cornerstonebuildingbrands.com
+  - type: Newsroom
+    url: https://www.cornerstonebuildingbrands.com/news-and-updates
+  - type: BlogRSS
+    url: https://www.cornerstonebuildingbrands.com/feed
+  - type: Leadership
+    url: https://www.cornerstonebuildingbrands.com/leadership-team
+  - type: Support
+    url: https://www.cornerstonebuildingbrands.com/contact-us
+  - type: Careers
+    url: https://www.cornerstonebuildingbrands.com/careers
+  - type: Login
+    url: https://portal.cornerstonebuildingbrands.com/
+    x-note: Windows & Doors Customer Portal (Microsoft Entra ID); not a developer console
+  - type: SignUp
+    url: https://www.cornerstonebuildingbrands.com/portalaccess
+    x-note: Customer Portal access request form, routed to a Territory Sales Manager
+  - type: TermsOfService
+    url: https://www.cornerstonebuildingbrands.com/legal
+  - type: PrivacyPolicy
+    url: https://www.cornerstonebuildingbrands.com/privacy-policy
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/cornerstone-building-brands
+  - type: WellKnown
+    url: well-known/cornerstone-building-brands-well-known.yml
+    x-note: Two real documents served — RFC 8414 and RFC 9728 — on www.cornerstonebuildingbrands.com
+  - type: MCPServer
+    url: mcp/cornerstone-building-brands-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/cornerstone-building-brands-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cornerstone-building-brands-authentication.yml
+  - type: OAuthScopes
+    url: scopes/cornerstone-building-brands-scopes.yml
+  - type: Conformance
+    url: conformance/cornerstone-building-brands-conformance.yml
+  - type: ErrorCatalog
+    url: errors/cornerstone-building-brands-problem-types.yml
+  - type: Conventions
+    url: conventions/cornerstone-building-brands-conventions.yml
+  - type: DataModel
+    url: data-model/cornerstone-building-brands-data-model.yml
+  - type: Overlay
+    url: overlays/cornerstone-building-brands-content-api-overlay.yaml
+  - type: Lifecycle
+    url: lifecycle/cornerstone-building-brands-lifecycle.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/cornerstone-building-brands-llms.txt
+    x-note: Provider-served /llms.txt (Rank Math page index), saved verbatim
+  - type: Packages
+    url: packages/cornerstone-building-brands-packages.yml
+    x-note: 0 packages — no GitHub organization and no registry presence
+  - type: Plans
+    url: plans/cornerstone-building-brands-plans-pricing.yml
+    x-note: plan_count 0 — no API pricing published
+  - type: RateLimits
+    url: rate-limits/cornerstone-building-brands-rate-limits.yml
+    x-note: limit_count 0 — no documented limits and no runtime headers
+  - type: DomainSecurity
+    url: security/cornerstone-building-brands-domain-security.yml
+  - type: RegulatoryPosture
+    url: regulatory/cornerstone-building-brands-regulatory-posture.yml
+  - type: GlobalPrivacyControl
+    url: https://www.cornerstonebuildingbrands.com/privacy-policy
+    x-note: Privacy Policy states a browser GPC signal opts the user out of cookie-based sales and sharing
+  - type: DataSubjectRequest
+    url: https://www.cornerstonebuildingbrands.com/privacy-request-form
+x-enrichment:
+  date: '2026-09-19'
+  status: enriched
+  artifacts_added: 22
+  pass: local-v3
+x-coverage:
+  state: covered
+  reason: null
+  detail: >-
+    Contract discovery succeeded on a building-products manufacturer with no developer program. The two
+    hosts the previous record named (developer. and api.cornerstonebuildingbrands.com) are NXDOMAIN, but
+    www.cornerstonebuildingbrands.com serves RFC 8414 and RFC 9728 discovery documents naming a live remote
+    MCP server at /wp-json/mcp/mcp-oauth-server (OAuth 2.1 + PKCE, scope `mcp`, tools/list gated at 401), a
+    provider-authored /llms.txt, and an anonymously readable wp/v2 content surface across 14 collections,
+    from which a 27-operation OpenAPI was derived against the provider's own route index.
+  evidence:
+  - url: https://www.cornerstonebuildingbrands.com/.well-known/oauth-protected-resource
+    status: 200
+  - url: https://www.cornerstonebuildingbrands.com/.well-known/oauth-authorization-server
+    status: 200
+  - url: https://www.cornerstonebuildingbrands.com/wp-json/
+    status: 200
+  - url: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+    status: 401
+  - url: https://www.cornerstonebuildingbrands.com/llms.txt
+    status: 200
+  - url: https://www.cornerstonebuildingbrands.com/openapi.json
+    status: 404
+  - url: https://developer.cornerstonebuildingbrands.com/
+    status: 0
+  - url: https://www.cornerstonebuildingbrands.com/.well-known/agent-card.json
+    status: 404
+  checked: '2026-09-19'
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

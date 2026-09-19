@@ -1,0 +1,41 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://www.cornerstonebuildingbrands.com/legal (Terms of Use, Last Updated July 8, 2026), the derived
+  wp/v2 route index, and probes for a status page and changelog on 2026-09-19.
+description: >-
+  Cornerstone Building Brands publishes no API lifecycle commitments of any kind — no versioning policy, no
+  deprecation policy, no Sunset/Deprecation headers, no SLA, no status page and no changelog. The only
+  versioning present is WordPress core's own uri-path namespace (wp/v2), which the company neither chose nor
+  documents. Recorded as an honest absence rather than omitted.
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  policy_url: null
+  provider_documented: false
+  note: WordPress core namespace; a WordPress or plugin upgrade can change this surface without any notice to consumers.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations: []
+  note: >-
+    No RFC 8594 Sunset or Deprecation header was returned on any observed response, and no deprecation
+    policy page exists. No operation in the derived spec is marked deprecated.
+sla:
+  published: false
+  url: null
+status_page:
+  published: false
+  url: null
+  probed:
+  - {url: 'https://status.cornerstonebuildingbrands.com', status: 0, note: NXDOMAIN}
+changelog:
+  published: false
+  url: null
+  note: >-
+    The company publishes a news/press-release stream (https://www.cornerstonebuildingbrands.com/news-and-updates,
+    also readable at /wp-json/wp/v2/news), but it is corporate news, not an API or product changelog.
+support:
+  url: https://www.cornerstonebuildingbrands.com/contact-us
+  note: General corporate contact form. Customer Portal access requests go to portalsetup@cornerstone-bb.com.

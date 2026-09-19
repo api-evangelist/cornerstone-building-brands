@@ -1,0 +1,136 @@
+generated: '2026-09-19'
+method: derived
+source: openapi/cornerstone-building-brands-content-api-openapi.yml
+description: >-
+  The entity graph of the WordPress content core behind www.cornerstonebuildingbrands.com, derived from the
+  route index the OpenAPI was built from and from the field sets observed in live anonymous responses. It
+  is a CMS content model — post, page, media, term — extended with three company-specific custom post types
+  (news, industry, leadership) and two company-specific taxonomies (news_category, news_solution). Note what
+  is NOT here: no Product, SKU, Order, Shipment, ASN, WarrantyClaim, Dealer or Distributor entity exists on
+  the public surface. Those live behind the Customer Portal login and its Azure API Management backend, so
+  the objects an integrator would actually want — orders, ASNs, warranty requests, product catalog — are not
+  modellable from anything public.
+entities:
+- name: NewsItem
+  collection: /wp/v2/news
+  id_field: id
+  operations: [listNews, getNews]
+  key_fields: [id, date, date_gmt, modified, slug, status, type, link, title, content, featured_media, template, news_category, news_solution, class_list, acf]
+  count_observed: 91
+- name: IndustryPage
+  collection: /wp/v2/industry
+  id_field: id
+  operations: [listIndustry, getIndustry]
+  key_fields: [id, date, modified, slug, status, type, link, title, content, featured_media, acf]
+  count_observed: 15
+- name: LeadershipProfile
+  collection: /wp/v2/leadership
+  id_field: id
+  operations: [listLeadership, getLeadership]
+  key_fields: [id, date, modified, slug, status, type, link, title, content, featured_media, acf]
+  count_observed: 9
+- name: Page
+  collection: /wp/v2/pages
+  id_field: id
+  operations: [listPages, getPage]
+  key_fields: [id, date, modified, slug, status, type, link, title, content, parent, menu_order, featured_media]
+  count_observed: 91
+- name: Post
+  collection: /wp/v2/posts
+  id_field: id
+  operations: [listPosts, getPost]
+  key_fields: [id, date, modified, slug, status, type, link, title, content, excerpt, author, featured_media, categories, tags]
+  count_observed: 1
+- name: MediaItem
+  collection: /wp/v2/media
+  id_field: id
+  operations: [listMedia, getMedia]
+  key_fields: [id, date, slug, type, link, title, media_type, mime_type, source_url, alt_text, media_details, post]
+  count_observed: 1100
+- name: NewsCategory
+  collection: /wp/v2/news_category
+  id_field: id
+  operations: [listNewsCategory, getNewsCategory]
+  key_fields: [id, count, name, slug, parent, taxonomy]
+- name: NewsSolution
+  collection: /wp/v2/news_solution
+  id_field: id
+  operations: [listNewsSolution, getNewsSolution]
+  key_fields: [id, count, name, slug, taxonomy]
+- name: Category
+  collection: /wp/v2/categories
+  id_field: id
+  operations: [listCategories, getCategory]
+  key_fields: [id, count, name, slug, parent, taxonomy]
+- name: Tag
+  collection: /wp/v2/tags
+  id_field: id
+  operations: [listTags, getTag]
+  key_fields: [id, count, name, slug, taxonomy]
+- name: PostType
+  collection: /wp/v2/types
+  id_field: slug
+  operations: [listTypes, getType]
+- name: Taxonomy
+  collection: /wp/v2/taxonomies
+  id_field: slug
+  operations: [listTaxonomies, getTaxonomy]
+- name: PostStatus
+  collection: /wp/v2/statuses
+  id_field: slug
+  operations: [listStatuses, getStatus]
+relationships:
+- from: NewsItem
+  to: NewsCategory
+  type: has_many
+  via: news_category
+- from: NewsItem
+  to: NewsSolution
+  type: has_many
+  via: news_solution
+- from: NewsItem
+  to: MediaItem
+  type: has_one
+  via: featured_media
+- from: IndustryPage
+  to: MediaItem
+  type: has_one
+  via: featured_media
+- from: LeadershipProfile
+  to: MediaItem
+  type: has_one
+  via: featured_media
+- from: Page
+  to: Page
+  type: belongs_to
+  via: parent
+- from: Page
+  to: MediaItem
+  type: has_one
+  via: featured_media
+- from: Post
+  to: Category
+  type: has_many
+  via: categories
+- from: Post
+  to: Tag
+  type: has_many
+  via: tags
+- from: Post
+  to: MediaItem
+  type: has_one
+  via: featured_media
+- from: MediaItem
+  to: Post
+  type: belongs_to
+  via: post
+- from: Category
+  to: Category
+  type: belongs_to
+  via: parent
+id_conventions:
+  style: integer surrogate keys for content and terms; string slugs for types, taxonomies and statuses
+  prefixes: none
+  note: >-
+    Every content and term entity also carries a human-readable `slug` and an absolute `link`, either of
+    which is a more stable citation than the integer id.

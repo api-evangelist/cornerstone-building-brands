@@ -1,0 +1,151 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live GET probes of the named /.well-known/* path list on www.cornerstonebuildingbrands.com,
+  cornerstonebuildingbrands.com, portal.cornerstonebuildingbrands.com and the two hosts apis.yml used to
+  name (developer. and api.), 2026-09-19. Every row is a request that was actually issued; every status is
+  the one it returned. The MCP server host named in mcp/cornerstone-building-brands-mcp.yml is
+  www.cornerstonebuildingbrands.com itself, and the authorization_servers entry in the protected-resource
+  document names the same host, so no third host was in play.
+summary:
+  hosts_probed: 5
+  paths_probed: 43
+  documents_served: 2
+  note: >-
+    Cornerstone Building Brands serves exactly two real well-known documents, both emitted by the WordPress
+    MCP Adapter on the corporate WordPress site: RFC 8414 OAuth authorization-server metadata and RFC 9728
+    protected-resource metadata naming /wp-json/mcp/mcp-oauth-server as the protected resource. There is no
+    security.txt (RFC 9116), no OpenID Connect discovery, no RFC 9727 api-catalog, no ai-plugin.json and no
+    A2A agent card on any host. developer.cornerstonebuildingbrands.com and api.cornerstonebuildingbrands.com
+    — the hosts the previous apis.yml scaffold pointed at — do not exist in DNS (NXDOMAIN).
+    portal.cornerstonebuildingbrands.com is an Angular single-page app whose catch-all answers HTTP 200 with
+    the same HTML shell for every /.well-known/* path; those are recorded as misses, not documents.
+hosts:
+- host: www.cornerstonebuildingbrands.com
+  role: Corporate website (WordPress on WP Engine) and MCP server host
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+    note: WordPress 404 page (text/html)
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json; charset=UTF-8
+    file: cornerstone-building-brands-oauth-authorization-server.json
+    standard: RFC 8414
+    note: >-
+      Issuer https://www.cornerstonebuildingbrands.com; authorization_code + refresh_token grants, PKCE S256,
+      scopes_supported ["mcp"], token_endpoint_auth_methods_supported ["none"],
+      client_id_metadata_document_supported true. Emitted by the WordPress MCP Adapter.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json; charset=UTF-8
+    file: cornerstone-building-brands-oauth-protected-resource.json
+    standard: RFC 9728
+    note: >-
+      resource https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server; authorization_servers
+      ["https://www.cornerstonebuildingbrands.com"]; bearer_methods_supported ["header"]; scopes_supported ["mcp"].
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: ../llms/cornerstone-building-brands-llms.txt
+    note: Rank Math SEO-generated page index (not a /.well-known/ document; recorded here because it was probed in the same pass).
+- host: cornerstonebuildingbrands.com
+  role: Apex domain (301 to www for every path except /llms.txt)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 301
+    note: redirects to www
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+    note: redirects to www (where it is served)
+  - path: /.well-known/oauth-protected-resource
+    status: 301
+    note: redirects to www (where it is served)
+  - path: /.well-known/api-catalog
+    status: 301
+  - path: /.well-known/ai-plugin.json
+    status: 301
+  - path: /.well-known/agent-card.json
+    status: 301
+  - path: /.well-known/agent.json
+    status: 301
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    note: same Rank Math document as www
+- host: portal.cornerstonebuildingbrands.com
+  role: Windows & Doors Customer Portal (Angular SPA, Microsoft Entra / MSAL login; backend on Azure API Management)
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    note: SPA catch-all returned the portal HTML shell — NOT a document; treated as a miss
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    note: SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    note: SPA shell, not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: text/html
+    note: SPA shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    note: SPA shell, not a document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    note: SPA shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    note: SPA shell, not a document
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    note: SPA shell, not a document
+- host: developer.cornerstonebuildingbrands.com
+  role: Host named by the previous apis.yml humanURL — does not exist
+  documents:
+  - path: /.well-known/security.txt
+    status: 0
+    note: NXDOMAIN — no A record; connection never opened
+  - path: /.well-known/oauth-authorization-server
+    status: 0
+    note: NXDOMAIN
+  - path: /.well-known/agent-card.json
+    status: 0
+    note: NXDOMAIN
+- host: api.cornerstonebuildingbrands.com
+  role: Host named by the previous apis.yml baseURL — does not exist
+  documents:
+  - path: /.well-known/security.txt
+    status: 0
+    note: NXDOMAIN — no A record; connection never opened
+  - path: /.well-known/oauth-authorization-server
+    status: 0
+    note: NXDOMAIN
+  - path: /.well-known/agent-card.json
+    status: 0
+    note: NXDOMAIN
+  - path: /openapi.json
+    status: 0
+    note: NXDOMAIN

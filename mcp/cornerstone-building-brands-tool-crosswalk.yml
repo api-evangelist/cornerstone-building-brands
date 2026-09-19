@@ -1,0 +1,64 @@
+generated: '2026-09-19'
+method: derived
+source: >-
+  mcp/cornerstone-building-brands-mcp.yml (tools/list gated, 401) and
+  openapi/cornerstone-building-brands-content-api-openapi.yml (derived from the provider's wp-json route index)
+description: >-
+  Binding between the MCP surface and the REST surface. It is deliberately almost empty on the MCP side:
+  the live tool list is OAuth-gated and the provider publishes no tool inventory, so no tool names are
+  known and none are invented. Every wp/v2 read operation is therefore rest_only until authenticated
+  introspection can enumerate the WordPress Abilities the MCP Adapter exposes. Recorded so the divergence
+  is visible rather than silently dropped.
+surfaces:
+  openapi:
+    path: openapi/cornerstone-building-brands-content-api-openapi.yml
+    provider_published: false
+    note: derived from https://www.cornerstonebuildingbrands.com/wp-json/ (route index, HTTP 200)
+  graphql: null
+  mcp:
+    url: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+    tools_list: gated
+    http_status: 401
+    note: WordPress MCP Adapter; tools are WordPress Abilities (wp-abilities/v1), also 401 anonymously
+crosswalk: []
+mcp_only: []
+rest_only:
+- capability: Content read (wp/v2)
+  operations:
+  - listPosts
+  - getPost
+  - listPages
+  - getPage
+  - listMedia
+  - getMedia
+  - listNews
+  - getNews
+  - listIndustry
+  - getIndustry
+  - listLeadership
+  - getLeadership
+  - listCategories
+  - getCategory
+  - listTags
+  - getTag
+  - listNewsCategory
+  - getNewsCategory
+  - listNewsSolution
+  - getNewsSolution
+  - searchContent
+  - listTaxonomies
+  - getTaxonomy
+  - listTypes
+  - getType
+  - listStatuses
+  - getStatus
+  note: >-
+    Listed as rest_only because no MCP tool could be observed, not because these are known to be absent
+    from the MCP surface.
+coverage:
+  tools_named: 0
+  tools_bound: 0
+  mcp_only: 0
+  rest_ops_total: 27
+  rest_ops_with_tool: 0
+  confidence: none — MCP tool enumeration requires an OAuth token this pass did not have

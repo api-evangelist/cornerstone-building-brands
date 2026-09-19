@@ -1,0 +1,72 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live error responses observed on https://www.cornerstonebuildingbrands.com/wp-json on 2026-09-19,
+  cross-checked against the derived openapi/cornerstone-building-brands-content-api-openapi.yml.
+format: wordpress-rest
+format_note: >-
+  Not RFC 9457. The envelope is the WordPress REST error object served as application/json:
+  {"code": "<machine code>", "message": "<human text>", "data": {"status": <http status>}}. Parameter
+  validation errors additionally carry data.params (field -> message) and data.details (field -> nested
+  {code, message, data}). There is no `type` URI, no `title`, no `detail` and no `instance`, so an agent
+  cannot dereference an error into documentation; match on `code`.
+envelope:
+  fields:
+  - {name: code, type: string, description: Machine-readable error code. The only stable field — match on this.}
+  - {name: message, type: string, description: Human-readable text (en-US on this host).}
+  - {name: data.status, type: integer, description: The HTTP status code, repeated inside the body.}
+  - {name: data.params, type: object, description: 'rest_invalid_param only: parameter name -> validation message.'}
+  - {name: data.details, type: object, description: 'rest_invalid_param only: parameter name -> {code, message, data}.'}
+  content_type: application/json
+problems:
+- code: rest_invalid_param
+  status: 400
+  title: Invalid parameter
+  observed_message: 'Invalid parameter(s): per_page'
+  observed_detail: 'data.details.per_page.code = rest_out_of_bounds — "per_page must be between 1 (inclusive) and 100 (inclusive)"'
+  remediation: Correct the named parameter; per_page is capped at 100 on every collection.
+  observed_at: https://www.cornerstonebuildingbrands.com/wp-json/wp/v2/news?per_page=1000
+- code: rest_forbidden
+  status: 401
+  title: Not permitted
+  observed_message: Sorry, you are not allowed to do that.
+  remediation: >-
+    Authenticate as a WordPress user with the required capability. Returned anonymously by /wp/v2/settings,
+    /wp/v2/menus, /wp/v2/menu-items, /wp/v2/block-types, /wp-abilities/v1/abilities and the MCP adapter
+    default server.
+  observed_at: https://www.cornerstonebuildingbrands.com/wp-json/wp/v2/settings
+- code: mcp_unauthorized
+  status: 401
+  title: MCP authentication required
+  observed_message: MCP authentication required.
+  remediation: >-
+    Obtain an OAuth 2.1 bearer token with the `mcp` scope via the authorization-code + PKCE flow described in
+    scopes/cornerstone-building-brands-scopes.yml and send it in the Authorization header. The response
+    carries a WWW-Authenticate header naming the RFC 9728 protected-resource document.
+  observed_at: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+- code: rest_post_invalid_id
+  status: 404
+  title: Invalid post ID
+  observed_message: Invalid post ID.
+  remediation: The id does not name a published item of that post type (posts, pages, media, news, industry, leadership).
+  observed_at: https://www.cornerstonebuildingbrands.com/wp-json/wp/v2/news/999999999
+- code: rest_term_invalid
+  status: 404
+  title: Term does not exist
+  observed_message: Term does not exist.
+  remediation: The id does not name a term in that taxonomy (categories, tags, news_category, news_solution).
+  observed_at: https://www.cornerstonebuildingbrands.com/wp-json/wp/v2/news_category/999999
+- code: rest_no_route
+  status: 404
+  title: No route
+  observed_message: No route was found matching the URL and request method.
+  remediation: Consult the route index at /wp-json/ for the routes and methods that exist.
+  observed_at: https://www.cornerstonebuildingbrands.com/wp-json/wp/v2/nope
+- code: unsupported_grant_type
+  status: 400
+  title: Unsupported grant type (OAuth token endpoint)
+  observed_message: '{"error":"unsupported_grant_type"}'
+  remediation: >-
+    RFC 6749 error envelope, not the WordPress one. Use grant_type authorization_code (with PKCE) or
+    refresh_token, the only grants the RFC 8414 document supports.
+  observed_at: https://www.cornerstonebuildingbrands.com/oauth/token

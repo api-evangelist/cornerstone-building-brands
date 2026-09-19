@@ -1,0 +1,77 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live responses and headers observed on https://www.cornerstonebuildingbrands.com/wp-json on 2026-09-19,
+  plus the route index the derived OpenAPI was built from.
+description: >-
+  Cross-cutting request/response semantics of the only callable surface Cornerstone Building Brands
+  exposes — the WordPress REST content API under the corporate domain. The provider documents none of it;
+  this is standard WordPress REST behaviour recorded from observation so a consumer knows what to expect.
+  The surface is read-only for an anonymous client, which makes idempotency, dry-run and reversibility
+  not-applicable rather than absent.
+authentication:
+  style: none for the documented read surface; OAuth 2.1 bearer for MCP; WordPress cookie/nonce for administrative routes
+  detail: authentication/cornerstone-building-brands-authentication.yml
+pagination:
+  style: page-number
+  request_params: [page, per_page, offset]
+  defaults: {page: 1, per_page: 10}
+  maximum_per_page: 100
+  response_headers: [X-WP-Total, X-WP-TotalPages]
+  link_header: true
+  link_header_note: An RFC 8288 Link header carries rel="next" (and rel="prev" past page 1).
+  cors_exposed: true
+  cors_note: X-WP-Total, X-WP-TotalPages and Link are named in Access-Control-Expose-Headers.
+  observed: 'GET /wp/v2/news?per_page=1 returned x-wp-total: 91, x-wp-totalpages: 91 and link: <...&page=2>; rel="next"'
+  observed_totals: {news: 91, pages: 91, posts: 1, leadership: 9, industry: 15, media: 1100}
+filtering_and_search:
+  params: [search, after, before, modified_after, modified_before, slug, status, order, orderby, include, exclude, news_category, news_solution, categories, tags]
+  note: Taken from the route index arguments; availability differs per resource (news carries the news_category / news_solution filters).
+field_selection:
+  supported: true
+  params: [_fields, _embed]
+  note: Standard WordPress sparse-fieldset and embedding parameters, part of the WordPress REST contract on every route.
+content_negotiation:
+  response_content_type: application/json
+  localisation: en-US; no language parameter observed.
+request_tracing:
+  request_id_header: null
+  note: No request-id or correlation header is returned; the only per-request identifier is Cloudflare's cf-ray.
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  note: No versioning or deprecation policy is published by the provider; the namespace is WordPress core's.
+error_envelope:
+  format: wordpress-rest
+  shape: '{"code": string, "message": string, "data": {"status": integer}}'
+  rfc9457: false
+  detail: errors/cornerstone-building-brands-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  note: No RateLimit-*, X-RateLimit-* or Retry-After header on any observed response; the site sits behind Cloudflare and WP Engine, whose limits are undocumented.
+caching:
+  cdn: Cloudflare in front of WP Engine
+  headers: [cache-control, x-cacheable, x-cache, x-cache-group, cf-cache-status]
+  observed: 'cache-control: max-age=600, must-revalidate; x-cacheable: SHORT — wp-json responses are cached for ten minutes'
+security_headers:
+  hsts: 'max-age=31536000; includeSubdomains; preload'
+  x_content_type_options: nosniff
+  x_frame_options: SAMEORIGIN
+idempotency:
+  coverage: na
+  scope: []
+  mechanism: null
+  note: >-
+    The anonymously callable surface is GET-only. No mutating operation is exposed to a public client, so
+    there is nothing to make idempotent; the MCP server's writes (if any) sit behind OAuth and could not be
+    enumerated.
+dry_run_mode:
+  supported: na
+  note: Read-only surface; nothing to rehearse.
+reversibility:
+  grade: na
+  write_surfaces: []
+  note: >-
+    No public write surface exists — every anonymous operation is a GET — so there is no action to reverse
+    and no window to state. Recorded as na so the dimension leaves the denominator rather than scoring zero.
