@@ -31,7 +31,6 @@ tags:
   - Construction
   - Manufacturing
   - Building Materials
-  - Content
   - MCP
   - WordPress
   - News
@@ -54,46 +53,20 @@ created: '2026-04-19'
 modified: '2026-09-19'
 specificationVersion: '0.23'
 apis:
-  - aid: cornerstone-building-brands:cornerstone-building-brands-content-api
-    name: Cornerstone Building Brands Content API (WordPress REST wp/v2)
-    description: >-
-      The anonymously readable content surface of www.cornerstonebuildingbrands.com: press releases (the
-      `news` custom post type, 91 items), industry/market-segment pages (15), leadership profiles (9),
-      corporate and legal pages (91), the media library (1,100 items), the news_category and news_solution
-      taxonomies, post categories and tags, and site-wide search. No key, no token, no registration; 27
-      GET operations, all verified 200 on 2026-09-19. The OpenAPI is DERIVED by API Evangelist from the
-      provider's own self-describing route index at /wp-json/ — Cornerstone Building Brands publishes no
-      OpenAPI of its own.
-    tags:
-      - Content
-      - News
-      - WordPress
-      - Building Products
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  - aid: cornerstone-building-brands:cornerstonebuildingbrands-com-website-wordpress-rest
+    name: Cornerstone Building Brands Website (WordPress REST)
+    description: 'The public WordPress REST API (wp-json) of the Cornerstone Building Brands website at
+      www.cornerstonebuildingbrands.com: the route index of the site''s content management system, catalogued
+      as one site surface rather than as separate APIs.'
     baseURL: https://www.cornerstonebuildingbrands.com/wp-json
-    humanURL: https://www.cornerstonebuildingbrands.com/wp-json/
+    tags:
+    - WordPress
+    x-surface: platform-generated
     properties:
-      - type: OpenAPI
-        url: openapi/cornerstone-building-brands-content-api-openapi.yml
-      - type: Overlay
-        url: overlays/cornerstone-building-brands-content-api-overlay.yaml
-      - type: DataModel
-        url: data-model/cornerstone-building-brands-data-model.yml
-      - type: ErrorCatalog
-        url: errors/cornerstone-building-brands-problem-types.yml
-      - type: Conventions
-        url: conventions/cornerstone-building-brands-conventions.yml
-      - type: Authentication
-        url: authentication/cornerstone-building-brands-authentication.yml
-      - type: RateLimits
-        url: rate-limits/cornerstone-building-brands-rate-limits.yml
-      - type: AgentSkill
-        url: skills/_index.yml
-    x-evidence:
-      route_index: https://www.cornerstonebuildingbrands.com/wp-json/
-      http_status: 200
-      collections_verified: 14
-      fetched: '2026-09-19'
+    - type: Documentation
+      url: https://www.cornerstonebuildingbrands.com/wp-json
+    x-platform: wordpress
+    x-platform-surface: rest
   - aid: cornerstone-building-brands:cornerstone-building-brands-mcp
     name: Cornerstone Building Brands MCP Server (WordPress MCP Adapter)
     description: >-
@@ -129,6 +102,9 @@ apis:
       http_status: 200
       tools_list_status: 401
       fetched: '2026-09-19'
+    x-surface: platform-generated
+    x-platform: wordpress
+    x-platform-surface: mcp-plugin
 common:
   - type: Website
     url: https://www.cornerstonebuildingbrands.com
@@ -173,8 +149,6 @@ common:
     url: conventions/cornerstone-building-brands-conventions.yml
   - type: DataModel
     url: data-model/cornerstone-building-brands-data-model.yml
-  - type: Overlay
-    url: overlays/cornerstone-building-brands-content-api-overlay.yaml
   - type: Lifecycle
     url: lifecycle/cornerstone-building-brands-lifecycle.yml
   - type: AgentSkill
