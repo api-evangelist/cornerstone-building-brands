@@ -106,6 +106,8 @@ apis:
     x-platform: wordpress
     x-platform-surface: mcp-plugin
 common:
+  - type: FinOps
+    url: finops/cornerstone-building-brands-finops.yml
   - type: Website
     url: https://www.cornerstonebuildingbrands.com
   - type: Newsroom
