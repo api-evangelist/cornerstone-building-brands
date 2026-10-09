@@ -111,3 +111,18 @@ deployment:
     Remote only. Cornerstone Building Brands ships no stdio package — there is no npm, PyPI, GitHub or other
     distribution of an MCP server for this provider, and no install command is published anywhere. The
     server is the WordPress platform's, running under the company's domain.
+rfc9728:
+  endpoint: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+  metadata_url: https://www.cornerstonebuildingbrands.com/.well-known/oauth-protected-resource
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://www.cornerstonebuildingbrands.com/wp-json/mcp/mcp-oauth-server
+    authorization_servers:
+    - https://www.cornerstonebuildingbrands.com
+    scopes_supported:
+    - mcp
+    bearer_methods_supported:
+    - header
