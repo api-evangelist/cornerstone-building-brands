@@ -1,4 +1,4 @@
-# Cornerstone Building Brands (cornerstone-building-brands)
+# Cornerstone Building Brands
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,23 +64,121 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cornerstone Building Brands is a major US corporation and Fortune 1000 company. The Cornerstone Building Brands API provides programmatic access to its platform services, data, and integrations for enterprise customers and partners.
+Cornerstone Building Brands, Inc. is a Fortune 1000 manufacturer of exterior building products in North America — vinyl siding and accessories, metal and rainware, fence and railing, windows and entry doors, and metal roofs, walls and buildings — sold under brands including Ply Gem, Simonton and Mastic through dealers, distributors and builders rather than as software. It operates no developer program and publishes no API documentation, SDK or developer portal: the hosts its earlier catalog record named, developer.cornerstonebuildingbrands.com and api.cornerstonebuildingbrands.com, do not resolve. Its machine-readable surface is what the corporate WordPress estate on www.cornerstonebuildingbrands.com exposes — an anonymously readable WordPress REST content API (press releases, industry pages, leadership profiles, pages, media, taxonomies and search) and, notably for a manufacturer, a live remote Model Context Protocol server published through the WordPress MCP Adapter, advertised by real RFC 8414 authorization-server metadata and RFC 9728 protected-resource metadata, with tools/list OAuth-gated. The company's partner-facing integration surface — orders, ASNs, warranty claims — sits behind the Windows & Doors Customer Portal, which signs in with Microsoft Entra ID over an Azure API Management gateway whose developer portal is unpublished.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/cornerstone-building-brands/refs/heads/main/apis.yml)
+**Areas:** Building Products · Construction · Manufacturing · Building Materials · MCP · WordPress · News
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## Cornerstone Building Brands on APIs.io
 
-## Tags:
+Everything profiled for Cornerstone Building Brands is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cornerstone-building-brands/](https://apis.io/providers/cornerstone-building-brands/)** — or go straight to one of the APIs or properties below.
 
- - Building Products, Construction
+### APIs (2)
 
-## Timestamps
+- [Cornerstone Building Brands Website (WordPress REST)](https://apis.io/apis/cornerstone-building-brands/cornerstonebuildingbrands-com-website-wordpress-rest/) — The public WordPress REST API (wp-json) of the Cornerstone Building Brands website at www.cornerstonebuildingbrands.com: the route index of the site's…
+- [Cornerstone Building Brands MCP Server (WordPress MCP Adapter)](https://apis.io/apis/cornerstone-building-brands/cornerstone-building-brands-mcp/) — A live remote Model Context Protocol server served from the corporate WordPress estate under the `mcp` REST namespace. Two MCP routes are advertised in the…
 
-- **Created:** 2026-04-19
-- **Modified:** 2026-04-19
+### Published properties
 
-## Maintainers
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-**FN:** Kin Lane
+#### MCP servers (1)
 
-**Email:** kin@apievangelist.com
+Model Context Protocol servers that expose the API to agents.
+
+- [cornerstone-building-brands](https://apis.io/servers/cornerstone-building-brands/cornerstone-building-brands/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Cornerstone Building Brands Authentication](https://apis.io/security/cornerstone-building-brands/cornerstone-building-brands-authentication/)
+- [Cornerstone Building Brands Domain Security](https://apis.io/security/cornerstone-building-brands/cornerstone-building-brands-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Cornerstone Building Brands Scopes](https://apis.io/scopes/cornerstone-building-brands/cornerstone-building-brands-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Cornerstone Building Brands Plans Pricing](https://apis.io/plans/cornerstone-building-brands/cornerstone-building-brands-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Cornerstone Building Brands Rate Limits](https://apis.io/rate-limits/cornerstone-building-brands/cornerstone-building-brands-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Cornerstone Building Brands Finops](https://apis.io/finops/cornerstone-building-brands/cornerstone-building-brands-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.cornerstonebuildingbrands.com)
+- [Sign up](https://www.cornerstonebuildingbrands.com/portalaccess)
+- [Support](https://www.cornerstonebuildingbrands.com/contact-us)
+- [Terms of service](https://www.cornerstonebuildingbrands.com/legal)
+- [Privacy policy](https://www.cornerstonebuildingbrands.com/privacy-policy)
+
+## API Evangelist rating
+
+**Kin Score 25.5** — emerging · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 68.3 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 28.0 |
+| Access clarity | 34.2 |
+
+**Agent readiness 22.8** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 42.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cornerstone-building-brands/](https://apis.io/providers/cornerstone-building-brands/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Cornerstone Building Brands: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cornerstone-building-brands/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
